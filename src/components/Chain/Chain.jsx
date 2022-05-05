@@ -1,29 +1,56 @@
 import Block from 'components/Block/Block';
+import Transaction from 'components/Transaction/Transaction';
 
 /**
 * @summary displays the contents of a poll
 */
 export default class Chain {
   constructor() {
-    this.chain = [];
-    this.difficulty = 3;
-    this.chain.push(this.createGenesisBlock());
+    this.chain = [this.createGenesisBlock()];
+    this.difficulty = 2;
+    this.pendingTransactions = [];
+    this.miningReward = 100;
   }
 
   createGenesisBlock() {
-    return new Block(0, new Date().toString(), 'Genesis', '0');
+    return new Block(new Date().toString(), 'Genesis', '0');
   }
 
   getLatestBlock() {
     return this.chain[this.chain.length - 1];
   }
+  
+  minePendingTransactions(miningRewardAddress) {
+    let block = new Block(Date.now(), this.pendingTransactions);
+    block.mineBlock(this.difficulty);
 
-  addBlock(newBlock) {
-    if (this.getLatestBlock()) {
-      newBlock.previousHash = this.getLatestBlock().hash;
-      newBlock.mineBlock(this.difficulty);
-      this.chain.push(newBlock);
+    console.log('block successfully mined');
+    this.chain.push(block);
+
+    this.pendingTransactions = [
+      new Transaction(null, miningRewardAddress, this.miningReward)
+    ]
+  }
+  
+  createTransaction(transaction) {
+    this.pendingTransactions.push(transaction);
+  }
+
+  getBalanceOfAddress(address) {
+    let balance = 0;
+
+    for (const block of this.chain) {
+      for (const trans of block.transactions) {
+        if (trans.fromAddress === address) {
+          balance -= trans.amonut;
+        }
+        if (trans.toAddress === address) {
+          balance += trans.amount;
+        }
+      }
     }
+
+    return balance;
   }
 
   isChainValid() {
