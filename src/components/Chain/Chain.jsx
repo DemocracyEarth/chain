@@ -24,7 +24,6 @@ export default class Chain {
     let block = new Block(Date.now(), this.pendingTransactions);
     block.mineBlock(this.difficulty);
 
-    console.log('block successfully mined');
     this.chain.push(block);
 
     this.pendingTransactions = [
@@ -32,7 +31,15 @@ export default class Chain {
     ]
   }
   
-  createTransaction(transaction) {
+  addTransaction(transaction) {
+    if (!transaction.fromAddress || !transaction.toAddress) {
+      throw new Error('Transaction must include from and to address');
+    }
+
+    if (!transaction.isValid()) {
+      throw new Error('Cannot add invalid transaction to chain')
+    }
+
     this.pendingTransactions.push(transaction);
   }
 
@@ -57,6 +64,10 @@ export default class Chain {
     for (let i = 1; i < this.chain.length; i++) {
       const currentBlock = this.chain[i];
       const previousBlock = this.chain[i-1];
+
+      if (!currentBlock.hasValidTransactions) {
+        return false;
+      }
 
       if (currentBlock.hash !== currentBlock.calculateHash()) {
         return false;
