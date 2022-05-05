@@ -1,7 +1,17 @@
-# Getting Started with Create React App
+<p align="center">
+<img src="src/images/logo.png" width="400" title="UBI">
+</p>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# UBI Chain
 
+A tiny blockchain that runs on browsers. 
+
+## Features
+
+  - [X] Spin up a node from a browser.
+  - [X] One node per human via [Proof of Humanity](https;//github.com/Proof-of-Humanity)
+  - [X] [UBI](https://github.com/DemocracyEarth/ubi) for gas and fees.
+  
 ## Available Scripts
 
 In the project directory, you can run:
