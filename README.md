@@ -1,10 +1,10 @@
 <p align="center">
-<img src="src/images/logo.png" width="400" title="UBI">
+<img src="src/images/logo.svg" width="200" title="UBI">
 </p>
 
 # UBI Chain
 
-A tiny blockchain that runs on browsers. 
+A tiny blockchain node for browsers. 
 
 ## Features
 
