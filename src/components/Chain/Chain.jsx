@@ -6,6 +6,7 @@ import Block from 'components/Block/Block';
 export default class Chain {
   constructor() {
     this.chain = [];
+    this.difficulty = 3;
     this.chain.push(this.createGenesisBlock());
   }
 
@@ -20,7 +21,7 @@ export default class Chain {
   addBlock(newBlock) {
     if (this.getLatestBlock()) {
       newBlock.previousHash = this.getLatestBlock().hash;
-      newBlock.hash = newBlock.calculateHash();
+      newBlock.mineBlock(this.difficulty);
       this.chain.push(newBlock);
     }
   }
