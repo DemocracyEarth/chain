@@ -4,7 +4,7 @@
 
 # UBI Chain
 
-A tiny blockchain node for browsers. 
+A very tiny blockchain for browsers. 
 
 ## Features
 
