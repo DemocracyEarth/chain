@@ -3,7 +3,7 @@ const EC = require('elliptic').ec;
 const ec = new EC('secp256k1');
 
 /**
-* @summary displays the contents of a poll
+* @summary Composes a blockchain transaction.
 */
 export default class Transaction {
   constructor(fromAddress, toAddress, amount) {
@@ -12,10 +12,12 @@ export default class Transaction {
     this.amount = amount;
   }
 
+  // Calculates hash for this transaction.
   calculateHash() {
     return SHA256(this.fromAddress + this.toAddress + this.amount).toString();
   }
 
+  // Signs the transaction with the corresponding private key.
   signTransaction(signingKey) {
     if (signingKey.getPublic('hex') !== this.fromAddress) {
       throw new Error('You cannot sign transactions for another wallet');
@@ -24,10 +26,9 @@ export default class Transaction {
     const hashTx = this.calculateHash();
     const sig = signingKey.sign(hashTx, 'base64');
     this.signature = sig.toDER('hex');
-
-    console.log(`this.signature: ${this.signature}`);
   }
 
+  // Checks if transaction has valid signatures. 
   isValid() {
     if (this.fromAddress === null) return true;
 

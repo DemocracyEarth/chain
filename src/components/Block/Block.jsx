@@ -1,7 +1,7 @@
 const SHA256 = require('crypto-js/sha256');
 
 /**
-* @summary displays the contents of a poll
+* @summary Creates a block of transactions.
 */
 export default class Block {
   constructor(timestamp, transactions, previousHash = '') {
@@ -12,10 +12,12 @@ export default class Block {
     this.nonce = 0;
   }
 
+  // Calculates the hash for this block.
   calculateHash() {
     return SHA256(this.index + this.previousHash + this.timestamp + JSON.stringify(this.data) + this.nonce).toString();
   }
 
+  // Mines block according to set difficulty
   mineBlock(difficulty) {
     while(this.hash.substring(0, difficulty) !== Array(difficulty + 1).join('0')) {
       this.nonce ++;
@@ -25,6 +27,7 @@ export default class Block {
     console.log('block mined: ' + this.hash);
   }
 
+  // Checks the validity of the transactions contained in this block.
   hasValidTransactions() {
     for (const tx of this.transactions) {
       if (!tx.isValid()) {

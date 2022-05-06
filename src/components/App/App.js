@@ -1,5 +1,4 @@
 import Chain from 'components/Chain/Chain';
-import Block from 'components/Block/Block';
 import Transaction from 'components/Transaction/Transaction';
 import logo from 'images/logo.svg';
 import './App.css';
@@ -12,12 +11,9 @@ function App() {
   const myKey = ec.keyFromPrivate('4ad4dd68e2109ef52f08c7439c11c62cb60daddbcdd9cd82f197d3dcbe5fba2c');
   const myWalletAddress = myKey.getPublic('hex');
 
-  console.log(myKey);
-  console.log(myWalletAddress);
-
   let ubiChain = new Chain();
 
-  const tx1 = new Transaction(myWalletAddress, 'public key here', 10);
+  const tx1 = new Transaction(myWalletAddress, 'XXXXXXXXX', 10);
   tx1.signTransaction(myKey);
   ubiChain.addTransaction(tx1);
 
@@ -27,6 +23,8 @@ function App() {
   console.log(`Balance of my wallet is: ${ubiChain.getBalanceOfAddress(myWalletAddress)}`);
 
   console.log(`Is chain valid? ${ubiChain.isChainValid()}`);
+  console.log(ubiChain.chain);
+
 
 
 
