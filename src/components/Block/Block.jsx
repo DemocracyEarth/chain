@@ -23,8 +23,6 @@ export default class Block {
       this.nonce ++;
       this.hash = this.calculateHash();
     }
-
-    console.log('block mined: ' + this.hash);
   }
 
   // Checks the validity of the transactions contained in this block.

@@ -14,7 +14,7 @@ export default class Chain {
 
   // Creates first block of the chain.
   createGenesisBlock() {
-    return new Block(new Date().toString(), 'Genesis', '0');
+    return new Block(Date.now(), 'Genesis', '0');
   }
 
   // Provides information of the latest block in the chain.
