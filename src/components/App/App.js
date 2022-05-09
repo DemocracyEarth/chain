@@ -1,3 +1,4 @@
+import Peer from 'peerjs';
 import Chain from 'components/Chain/Chain';
 import Transaction from 'components/Transaction/Transaction';
 import logo from 'images/logo.svg';
@@ -8,6 +9,8 @@ const ec = new EC('secp256k1');
 
 function App() {
 
+  // Wallet
+
   const myKey = ec.keyFromPrivate('4ad4dd68e2109ef52f08c7439c11c62cb60daddbcdd9cd82f197d3dcbe5fba2c');
   const myWalletAddress = myKey.getPublic('hex');
   let ubiChain = new Chain();
@@ -16,12 +19,16 @@ function App() {
   ubiChain.addTransaction(tx1);
 
   console.log('Starting the miner...');
-
   ubiChain.minePendingTransactions(myWalletAddress);
 
   console.log(`Balance of my wallet is: ${ubiChain.getBalanceOfAddress(myWalletAddress)}`);
   console.log(`Is chain valid? ${ubiChain.isChainValid()}`);
   console.log(ubiChain.chain);
+
+  // Peer 
+
+  const peer = new Peer(myWalletAddress);;
+  console.log(peer);
 
   return (
     <div className="App">
