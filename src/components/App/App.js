@@ -1,3 +1,4 @@
+import Peer from 'peerjs';
 import Chain from 'components/Chain/Chain';
 import Transaction from 'components/Transaction/Transaction';
 import logo from 'images/logo.svg';
@@ -22,6 +23,13 @@ function App() {
   console.log(`Balance of my wallet is: ${ubiChain.getBalanceOfAddress(myWalletAddress)}`);
   console.log(`Is chain valid? ${ubiChain.isChainValid()}`);
   console.log(ubiChain.chain);
+
+
+  const peer = new Peer('kwyjibot-9000', {
+    host: 'localhost',
+    port: 9000,
+    path: '/myapp'
+  });
 
   return (
     <div className="App">
