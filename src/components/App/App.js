@@ -1,6 +1,7 @@
-import Peer from 'peerjs';
 import Chain from 'components/Chain/Chain';
 import Transaction from 'components/Transaction/Transaction';
+import Socket from 'components/Socket/Socket';
+
 import logo from 'images/logo.svg';
 import './App.css';
 
@@ -24,12 +25,11 @@ function App() {
   console.log(`Is chain valid? ${ubiChain.isChainValid()}`);
   console.log(ubiChain.chain);
 
-
-  const peer = new Peer('kwyjibot-9000', {
-    host: 'localhost',
-    port: 9000,
-    path: '/myapp'
-  });
+  console.log("Start connection to server");
+  let id = (Math.random() + 1).toString(36).substring(7);
+  console.log(`my id: ${id}`);
+  let socket = new Socket(id, 'localhost');
+  socket.getPeers();
 
   return (
     <div className="App">
