@@ -15,12 +15,12 @@ export default class Socket {
   getPeers() {
     this.peer = new Peer(this.id, {
       host: this.relayServer,
-      port: 9001,
+      port: 9000,
       path: '/myapp'
     });
 
     console.log(this.peer);
-  // console.log(this.peer.listAllPeers());
+    console.log(this.peer.listAllPeers());
     // console.log(this.peer.listAllPeers());
   }
 
