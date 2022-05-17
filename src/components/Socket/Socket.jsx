@@ -12,7 +12,7 @@ export default class Socket {
   }
 
   // Connects to a relay server to obtain the address of other peers.
-  getPeers() {
+  async getPeers() {
     this.peer = new Peer(this.id, {
       host: this.relayServer,
       port: 9000,
@@ -20,8 +20,7 @@ export default class Socket {
     });
 
     console.log(this.peer);
-    console.log(this.peer.listAllPeers());
-    // console.log(this.peer.listAllPeers());
+    await this.peer.listAllPeers(list => console.log(list));
   }
 
   // Compose message to be transmitted to a peer

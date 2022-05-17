@@ -26,8 +26,9 @@ function App() {
   console.log(ubiChain.chain);
 
   console.log("Start connection to server");
-  let r = (Math.random() + 1).toString(36).substring(7);
-  let socket = new Socket(r, 'localhost');
+  let id = (Math.random() + 1).toString(36).substring(7);
+  console.log(`my id: ${id}`);
+  let socket = new Socket(id, 'localhost');
   socket.getPeers();
 
   return (
