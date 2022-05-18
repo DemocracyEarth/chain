@@ -19,6 +19,7 @@ export default class Socket {
       path: '/myapp'
     });
 
+    console.log(`List connected peers obtained from relayer:`)
     console.log(this.peer);
     await this.peer.listAllPeers(list => console.log(list));
   }
