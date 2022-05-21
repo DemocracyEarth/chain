@@ -1,6 +1,7 @@
 import Chain from 'components/Chain/Chain';
 import Transaction from 'components/Transaction/Transaction';
 import Socket from 'components/Socket/Socket';
+import RPC from 'components/RPC/RPC';
 
 import logo from 'images/logo.svg';
 import './App.css';
@@ -30,6 +31,10 @@ function App() {
   console.log(`my id: ${id}`);
   let socket = new Socket(id, 'localhost');
   socket.getPeers();
+
+  console.log("Start JSON RPC Server");
+  let rpcServer = new RPC();
+  console.log(rpcServer);
 
   return (
     <div className="App">
