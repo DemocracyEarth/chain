@@ -19,7 +19,7 @@ In the project directory, you can run:
 ### `npm run rpc`
 
 Runs the JSON RPC Server for Ethereum-compatible wallets.\
-Open [http://localhost:1024](http://localhost:1024) to interact with JSON RPC commands.
+Open [http://localhost:8585](http://localhost:8585) to interact with JSON RPC commands.
 
 ### `npm run relayer`
 

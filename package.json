@@ -6,6 +6,7 @@
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.2.0",
     "@testing-library/user-event": "^13.5.0",
+    "concurrently": "^7.2.1",
     "crypto-js": "^4.1.1",
     "elliptic": "^6.5.4",
     "json-rpc-2.0": "^1.1.0",
@@ -16,6 +17,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "dev": "concurrently --kill-others \"npm run relayer\" \"npm run rpc\"  \"npm run start\"",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
