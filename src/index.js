@@ -4,6 +4,13 @@ import './styles/index.css';
 import App from './components/App/App';
 import reportWebVitals from './reportWebVitals';
 
+const { JSONRPCServer } = require("json-rpc-2.0");
+
+const server = new JSONRPCServer();
+server.addMethod("echo", ({ text }) => text);
+server.addMethod("log", ({ message }) => console.log(message));
+
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
@@ -15,3 +22,4 @@ root.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
+
