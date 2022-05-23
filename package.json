@@ -19,7 +19,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "rpc": "node ./rpc/app.js",
+    "relayer": "peerjs --port 9000 --key peerjs --path /myapp --allow_discovery"
   },
   "eslintConfig": {
     "extends": [
