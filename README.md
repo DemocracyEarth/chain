@@ -18,21 +18,21 @@ In the project directory, you can run:
 
 ### `npm run dev`
 
-Recommended. Will run the JSON RPC Server, the Peer Relayer and the UBI Chain all at once.\
+Recommended. Will run the JSON RPC Server, the Peer Relayer and the UBI Chain all at once.
 
-Open [http://localhost:3000](http://localhost:3000) to interact with UBI Chain.\ 
+Open [http://localhost:3000](http://localhost:3000) to interact with UBI Chain.
 
-Configure your Metamask to connect with a new network on [http://localhost:8585](http://localhost:8585).\
+Configure your Metamask to connect with a new network on [http://localhost:8585](http://localhost:8585).
 
-Peers will be able discover other connected nodes on the network using port 9000.\
+Peers will be able discover other connected nodes on the network using port 9000.
 
 ### `npm run rpc`
 
-Runs the JSON RPC Server for Ethereum-compatible wallets.\
+Runs the JSON RPC Server for Ethereum-compatible wallets.
 
 ### `npm run relayer`
 
-Runs Relay Server that will connect with other peers on the network.\
+Runs Relay Server that will connect with other peers on the network.
 
 ### `npm start`
 
