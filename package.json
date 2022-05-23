@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^13.5.0",
     "crypto-js": "^4.1.1",
     "elliptic": "^6.5.4",
+    "json-rpc-2.0": "^1.1.0",
     "peerjs": "^1.3.2",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
