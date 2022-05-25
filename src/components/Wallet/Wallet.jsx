@@ -38,12 +38,26 @@ export default function Wallet(props) {
   }, [web3Modal])
 
 
+
   async function connectWallet() {
-    console.log(`connectWallet`);
     const provider = await web3Modal.connect();
+    
+    addListeners(provider);
+
     const ethersProvider = new providers.Web3Provider(provider)
     const userAddress = await ethersProvider.getSigner().getAddress()
     setAddress(userAddress)
+  }
+
+  async function addListeners(web3ModalProvider) {
+    web3ModalProvider.on("accountsChanged", (accounts) => {
+      window.location.reload()
+    });
+    
+    // Subscribe to chainId change
+    web3ModalProvider.on("chainChanged", (chainId) => {
+      window.location.reload()
+    });
   }
 
   return (
