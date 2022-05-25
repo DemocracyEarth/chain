@@ -2,7 +2,7 @@ import React from 'react';
 import Chain from 'components/Chain/Chain';
 import Transaction from 'components/Transaction/Transaction';
 import Socket from 'components/Socket/Socket';
-import Navigator from 'components/Navigator/Navigator';
+import Wallet from 'components/Wallet/Wallet';
 
 import logo from 'images/logo.svg';
 import './App.css';
@@ -36,7 +36,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Navigator />
+        <Wallet />
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           UBI Chain.

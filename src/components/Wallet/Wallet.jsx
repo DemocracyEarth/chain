@@ -1,12 +1,14 @@
 import React from 'react';
+import { ethers, providers } from "ethers";
 import Web3Modal from 'web3modal'
 import WalletConnectProvider from '@walletconnect/web3-provider'
 
 import { useState, useEffect } from 'react';
 
-export default function Navigator(props) {
+export default function Wallet(props) {
 
   const [web3Modal, setWeb3Modal] = useState(null)
+  const [address, setAddress] = useState("")
 
   useEffect(() => {
     // initiate web3modal
@@ -28,10 +30,26 @@ export default function Navigator(props) {
     setWeb3Modal(newWeb3Modal)
   }, [])
 
+  useEffect(() => {
+    // connect automatically and without a popup if user is already connected
+    if(web3Modal && web3Modal.cachedProvider){
+      connectWallet()
+    }
+  }, [web3Modal])
+
+
   async function connectWallet() {
-    console.log('test');
+    console.log(`connectWallet`);
     const provider = await web3Modal.connect();
+    const ethersProvider = new providers.Web3Provider(provider)
+    const userAddress = await ethersProvider.getSigner().getAddress()
+    setAddress(userAddress)
   }
 
-  return <button onClick={connectWallet}>Connect wallet</button>
+  return (
+    <div>
+      <button onClick={connectWallet}>Connect wallet</button>
+      <p>{address}</p>
+    </div>
+  )
 }
