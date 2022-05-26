@@ -1,5 +1,15 @@
+import WalletConnectProvider from '@walletconnect/web3-provider'
+
 export const config = {
-  api: {
-    infura: ''
+  contract: {
+    proofofhumanity: '0xC5E9dDebb09Cd64DfaCab4011A0D5cEDaf7c9BDb'
+  },
+  provider: {
+    walletconnect: {
+      package: WalletConnectProvider,
+      options: {
+        infuraId: '',
+      }
+    }
   }
 }

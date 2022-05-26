@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { ethers } from "ethers";
 import { abi } from 'abi/poh';
+import { config } from 'config';
 
 export default class Node extends Component {
 
@@ -13,10 +14,10 @@ export default class Node extends Component {
     }
 
     // Connect to the network
-    let provider = ethers.getDefaultProvider();
+    let provider = new ethers.providers.InfuraProvider("mainnet", config.provider.walletconnect.options.infuraId);
 
     // The address from the above deployment example
-    let contractAddress = "0xC5E9dDebb09Cd64DfaCab4011A0D5cEDaf7c9BDb";
+    let contractAddress = config.contract.proofofhumanity;
 
     // We connect to the Contract using a Provider, so we will only
     // have read-only access to the Contract
@@ -35,20 +36,20 @@ export default class Node extends Component {
   render() {
 
     return (
-      <p>
+      <>
         {(this.state.isHuman) ?
           <p>Human</p>
           :
           <p>
             {(this.state.verified) ?
-              <p>Not Human</p>
+              'Not Human'
               :
-              <p>...</p> 
+              '...'
             }
           </p>
         }
         {this.props.address}
-      </p>
+      </>
     )
   }
 }

@@ -4,6 +4,7 @@ import Transaction from 'components/Transaction/Transaction';
 import Socket from 'components/Socket/Socket';
 import Wallet from 'components/Wallet/Wallet';
 
+import { config } from 'config';
 import logo from 'images/logo.svg';
 import './App.css';
 
@@ -32,6 +33,23 @@ function App() {
   console.log(`my id: ${id}`);
   let socket = new Socket(id, 'localhost');
   socket.getPeers();
+
+  console.log('Checking configuration settings...');
+  let configure = false;
+  if (!config.provider.walletconnect.options.infuraId) {
+    console.log('🚨 Ethereum node provider settings is not configured.');
+    configure = true;
+
+  }
+  if (config.contract.proofofhumanity === '') {
+    console.log('🚨 Proof of Humanity contract address was not found.')
+    configure = true;
+  }
+  if (configure) {
+    console.log("Please configure app settings on src/config.js.")
+  } else {
+    console.log("Configuration settings OK.")
+  }
 
   return (
     <div className="App">
