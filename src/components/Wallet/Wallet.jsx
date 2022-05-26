@@ -1,5 +1,5 @@
 import React from 'react';
-import { ethers, providers } from "ethers";
+import { providers } from "ethers";
 import Web3Modal from 'web3modal'
 import WalletConnectProvider from '@walletconnect/web3-provider'
 import { config } from 'config'
