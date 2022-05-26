@@ -20,9 +20,9 @@
     "web3modal": "^1.9.7"
   },
   "scripts": {
-    "dev": "concurrently --kill-others \"npm run relayer\" \"npm run rpc\"  \"npm run start\"",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "dev": "export NODE_OPTIONS=--openssl-legacy-provider && concurrently --kill-others \"npm run relayer\" \"npm run rpc\"  \"npm run start\"",
+    "start": "export NODE_OPTIONS=--openssl-legacy-provider && react-scripts start",
+    "build": "export NODE_OPTIONS=--openssl-legacy-provider && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "rpc": "node ./rpc/app.js",
