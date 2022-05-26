@@ -1,11 +1,13 @@
 import React from 'react';
-import { ethers, providers } from "ethers";
+import { providers } from "ethers";
 import Web3Modal from 'web3modal'
 import WalletConnectProvider from '@walletconnect/web3-provider'
-
+import { config } from 'config'
 import { useState, useEffect } from 'react';
 
-export default function Wallet(props) {
+import Node from 'components/Node/Node';
+
+export default function Wallet() {
 
   const [web3Modal, setWeb3Modal] = useState(null)
   const [address, setAddress] = useState("")
@@ -16,7 +18,7 @@ export default function Wallet(props) {
       walletconnect: {
         package: WalletConnectProvider,
         options: {
-          infuraId: 'YOUR_INFURA_KEY',
+          infuraId: config.api.infura,
         }
       },
     };
@@ -37,8 +39,6 @@ export default function Wallet(props) {
     }
   }, [web3Modal])
 
-
-
   async function connectWallet() {
     const provider = await web3Modal.connect();
     
@@ -47,6 +47,7 @@ export default function Wallet(props) {
     const ethersProvider = new providers.Web3Provider(provider)
     const userAddress = await ethersProvider.getSigner().getAddress()
     setAddress(userAddress)
+
   }
 
   async function addListeners(web3ModalProvider) {
@@ -62,8 +63,11 @@ export default function Wallet(props) {
 
   return (
     <div>
-      <button onClick={connectWallet}>Connect wallet</button>
-      <p>{address}</p>
+      {(!address) ? 
+        <button onClick={connectWallet}>Connect wallet</button>
+        :
+        <Node address={address} />
+      }
     </div>
   )
 }

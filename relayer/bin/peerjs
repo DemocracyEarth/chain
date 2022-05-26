@@ -64,7 +64,7 @@ const opts = yargs
     },
     proxied: {
       demandOption: false,
-      describe: "Set true if PeerServer stays behind a reverse proxy",
+      describe: "Set true if Peer Relay Server stays behind a reverse proxy",
       default: false
     }
   })
@@ -85,7 +85,7 @@ if (opts.sslkey || opts.sslcert) {
     delete opts.sslkey;
     delete opts.sslcert;
   } else {
-    console.error("Warning: PeerServer will not run because either " +
+    console.error("Warning: Peer Relay Server will not run because either " +
       "the key or the certificate has not been provided.");
     process.exit(1);
   }
@@ -97,7 +97,7 @@ const server = PeerServer(opts, server => {
   const port = server.address().port;
 
   console.log(
-    "Started PeerServer on %s, port: %s, path: %s (v. %s)",
+    "Started Peer Relay Server on %s, port: %s, path: %s (v. %s)",
     host, port, userPath || "/", version
   );
 
