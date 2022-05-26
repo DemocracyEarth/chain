@@ -13,20 +13,10 @@ export default function Wallet() {
   const [address, setAddress] = useState("")
 
   useEffect(() => {
-    // initiate web3modal
-    const providerOptions = {
-      walletconnect: {
-        package: WalletConnectProvider,
-        options: {
-          infuraId: config.api.infura,
-        }
-      },
-    };
-
     const newWeb3Modal = new Web3Modal({
       cacheProvider: true, // very important
       network: "mainnet",
-      providerOptions,
+      providerOptions: config.provider,
     });
 
     setWeb3Modal(newWeb3Modal)
