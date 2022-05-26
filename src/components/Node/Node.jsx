@@ -35,20 +35,20 @@ export default class Node extends Component {
   render() {
 
     return (
-      <p>
+      <>
         {(this.state.isHuman) ?
           <p>Human</p>
           :
           <p>
             {(this.state.verified) ?
-              <p>Not Human</p>
+              'Not Human'
               :
-              <p>...</p> 
+              '...'
             }
           </p>
         }
         {this.props.address}
-      </p>
+      </>
     )
   }
 }
