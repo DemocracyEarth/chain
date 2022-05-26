@@ -5,7 +5,9 @@ import WalletConnectProvider from '@walletconnect/web3-provider'
 import { config } from 'config'
 import { useState, useEffect } from 'react';
 
-export default function Wallet(props) {
+import Node from 'components/Node/Node';
+
+export default function Wallet() {
 
   const [web3Modal, setWeb3Modal] = useState(null)
   const [address, setAddress] = useState("")
@@ -37,8 +39,6 @@ export default function Wallet(props) {
     }
   }, [web3Modal])
 
-
-
   async function connectWallet() {
     const provider = await web3Modal.connect();
     
@@ -66,7 +66,7 @@ export default function Wallet(props) {
       {(!address) ? 
         <button onClick={connectWallet}>Connect wallet</button>
         :
-        <p>{address}</p>
+        <Node address={address} />
       }
     </div>
   )
