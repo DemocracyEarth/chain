@@ -47,6 +47,7 @@ export default function Wallet(props) {
     const ethersProvider = new providers.Web3Provider(provider)
     const userAddress = await ethersProvider.getSigner().getAddress()
     setAddress(userAddress)
+
   }
 
   async function addListeners(web3ModalProvider) {
@@ -62,8 +63,11 @@ export default function Wallet(props) {
 
   return (
     <div>
-      <button onClick={connectWallet}>Connect wallet</button>
-      <p>{address}</p>
+      {(!address) ? 
+        <button onClick={connectWallet}>Connect wallet</button>
+        :
+        <p>{address}</p>
+      }
     </div>
   )
 }
