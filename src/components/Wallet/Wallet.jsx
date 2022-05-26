@@ -2,7 +2,7 @@ import React from 'react';
 import { ethers, providers } from "ethers";
 import Web3Modal from 'web3modal'
 import WalletConnectProvider from '@walletconnect/web3-provider'
-
+import { config } from 'config'
 import { useState, useEffect } from 'react';
 
 export default function Wallet(props) {
@@ -16,7 +16,7 @@ export default function Wallet(props) {
       walletconnect: {
         package: WalletConnectProvider,
         options: {
-          infuraId: 'YOUR_INFURA_KEY',
+          infuraId: config.api.infura,
         }
       },
     };
