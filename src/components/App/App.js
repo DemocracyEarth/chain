@@ -1,7 +1,6 @@
 import React from 'react';
 import Chain from 'components/Chain/Chain';
 import Transaction from 'components/Transaction/Transaction';
-import Socket from 'components/Socket/Socket';
 import Wallet from 'components/Wallet/Wallet';
 
 import { config } from 'config';
@@ -28,11 +27,7 @@ function App() {
   console.log(`Is chain valid? ${ubiChain.isChainValid()}`);
   console.log(ubiChain.chain);
 
-  console.log("Start connection to server");
-  let id = (Math.random() + 1).toString(36).substring(7);
-  console.log(`my id: ${id}`);
-  let socket = new Socket(id, 'localhost');
-  socket.getPeers();
+
 
   console.log('Checking configuration settings...');
   let configure = false;
