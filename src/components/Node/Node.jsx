@@ -2,15 +2,22 @@ import React, { Component } from 'react';
 import { ethers } from "ethers";
 import { abi } from 'abi/poh';
 import { config } from 'config';
+import Peer from 'peerjs';
 
 export default class Node extends Component {
 
   constructor(props) {
     super();
-
+ 
+    this.id = props.address;
+    this.relayServer = config.relay.server;
+    this.peer = new Peer();
+    this.peerList = [];
+    
     this.state = {
       isHuman: false,
-      verified: false
+      verified: false,
+      peers: []
     }
 
     // Connect to the network
@@ -31,14 +38,27 @@ export default class Node extends Component {
   async isHuman() {
     // Get the current value
     this.setState({ isHuman: await this.contract.isRegistered(this.props.address), verified: true });
+    this.setState({ peers: await this.getPeers() });
+  }
+
+  // Connects to a relay server to obtain the address of other peers.
+  async getPeers() {
+    this.peer = new Peer(this.id, {
+      host: this.relayServer,
+      port: config.relay.port,
+      path: config.relay.path
+    });
+
+    console.log(`List connected peers obtained from relayer:`)
+    const peerList = await this.peer.listAllPeers(res => this.setState({ peers: res }));
+    return peerList;
   }
 
   render() {
-
     return (
       <>
         {(this.state.isHuman) ?
-          <p>Human</p>
+          <p>Human Node — Can Validate</p>
           :
           <p>
             {(this.state.verified) ?
@@ -49,6 +69,10 @@ export default class Node extends Component {
           </p>
         }
         {this.props.address}
+        <p>
+          Connected Peers:
+          {JSON.stringify(this.state.peers)}
+        </p>
       </>
     )
   }

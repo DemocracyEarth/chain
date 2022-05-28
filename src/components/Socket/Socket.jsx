@@ -1,4 +1,5 @@
 import Peer from 'peerjs';
+import { config } from 'config';
 
 /**
 * @summary Creates a block of transactions.
@@ -15,13 +16,13 @@ export default class Socket {
   async getPeers() {
     this.peer = new Peer(this.id, {
       host: this.relayServer,
-      port: 9000,
-      path: '/myapp'
+      port: config.relay.port,
+      path: config.relay.path
     });
 
     console.log(`List connected peers obtained from relayer:`)
-    console.log(this.peer);
-    await this.peer.listAllPeers(list => console.log(list));
+    const peerList = await this.peer.listAllPeers(list => console.log(list));
+    return peerList;
   }
 
   // Compose message to be transmitted to a peer
