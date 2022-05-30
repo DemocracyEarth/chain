@@ -1,9 +1,10 @@
 import React from 'react';
 import { providers } from "ethers";
 import Web3Modal from 'web3modal'
-import WalletConnectProvider from '@walletconnect/web3-provider'
 import { config } from 'config'
 import { useState, useEffect } from 'react';
+import { Fab } from '@mui/material'
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 
 import Node from 'components/Node/Node';
 
@@ -54,7 +55,10 @@ export default function Wallet() {
   return (
     <div>
       {(!address) ? 
-        <button onClick={connectWallet}>Connect wallet</button>
+        <Fab variant="extended" onClick={connectWallet}>
+          <AccountBalanceWalletIcon sx={{ mr: 1 }} />
+          Connect wallet
+        </Fab>
         :
         <Node address={address} />
       }
