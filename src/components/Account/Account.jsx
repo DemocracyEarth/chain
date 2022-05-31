@@ -23,18 +23,8 @@ const Account = ({ address, provider }) => {
   async function getAvatar() {
     const ensAddress = await provider.lookupAddress(address);
     const avatarURL = await provider.getAvatar(address);
-
-    if (avatarURL) {
-      setAvatar(avatarURL)
-    } else {
-      setAvatar(makeBlockie(address));
-    }
-    
-    if (ensAddress) {
-      setAddress(ensAddress);
-    } else {
-      setAddress(_shortenCryptoName(ethers.utils.getAddress(address)));
-    }
+    (avatarURL) ? setAvatar(avatarURL) : setAvatar(makeBlockie(address));
+    (ensAddress) ? setAddress(ensAddress) : setAddress(_shortenCryptoName(ethers.utils.getAddress(address)));
   }
   
   const _shortenCryptoName = (publicAddress) => {
