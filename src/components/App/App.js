@@ -6,8 +6,6 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import AdbIcon from '@mui/icons-material/Adb';
 import { config } from 'config';
 import logo from 'images/logo.svg';
 import { createSvgIcon } from '@mui/material/utils';
@@ -59,11 +57,9 @@ function App() {
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-           UBI Chain
+           Universal Basic Income
           </Typography>
-          <Button color="inherit">
-            <Wallet />
-          </Button>
+          <Wallet />
         </Toolbar>
       </AppBar>
     </Box>
