@@ -3,6 +3,7 @@ import { ethers } from "ethers";
 import { abi } from 'abi/poh';
 import { config } from 'config';
 import Peer from 'peerjs';
+import Account from 'components/Account/Account';
 
 
 export default class Node extends Component {
@@ -22,14 +23,14 @@ export default class Node extends Component {
     }
 
     // Connect to the network
-    let provider = new ethers.providers.InfuraProvider("mainnet", config.provider.walletconnect.options.infuraId);
+    this.provider = new ethers.providers.InfuraProvider("mainnet", config.provider.walletconnect.options.infuraId);
 
     // The address from the above deployment example
     let contractAddress = config.contract.proofofhumanity;
 
     // We connect to the Contract using a Provider, so we will only
     // have read-only access to the Contract
-    this.contract = new ethers.Contract(contractAddress, abi, provider);
+    this.contract = new ethers.Contract(contractAddress, abi, this.provider);
   }
 
   async componentDidMount() {
@@ -68,7 +69,7 @@ export default class Node extends Component {
             }
           </p>
         }
-        {this.props.address}
+        <Account address={this.props.address} provider={this.provider} />
         <p>
           Connected Peers:
           {JSON.stringify(this.state.peers)}
