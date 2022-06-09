@@ -10,6 +10,7 @@ import { config } from 'config';
 import logo from 'images/logo.svg';
 import { createSvgIcon } from '@mui/material/utils';
 import './App.css';
+import i18n from 'i18n';
 
 const EC = require('elliptic').ec;
 const ec = new EC('secp256k1');
@@ -57,7 +58,7 @@ function App() {
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-           Universal Basic Income
+            {i18n.t('dapp-title')}
           </Typography>
           <Wallet />
         </Toolbar>

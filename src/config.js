@@ -8,7 +8,7 @@ export const config = {
     walletconnect: {
       package: WalletConnectProvider,
       options: {
-        infuraId: 'INSERT_INFURA_ID_HERE',
+        infuraId: 'INSERT_INFURA_ID',
       }
     }
   },
@@ -16,5 +16,8 @@ export const config = {
     server: 'localhost',
     port: 9000,
     path: '/myapp'
+  },
+  i18n: {
+    lng: 'en'
   }
 }
