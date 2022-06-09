@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { ethers } from "ethers";
-import { abi } from 'abi/poh';
+import { abi } from 'abi/ubi';
 import { config } from 'config';
 import Peer from 'peerjs';
 import Account from 'components/Account/Account';
-
+import Balance from 'components/Balance/Balance';
+import { ReactComponent as Logo } from 'images/logo.svg';
 
 export default class Node extends Component {
 
@@ -22,6 +23,8 @@ export default class Node extends Component {
       verified: false,
       peers: []
     }
+
+    console.log(Logo);
   }
 
   async componentDidMount() {
@@ -43,6 +46,7 @@ export default class Node extends Component {
   render() {
     return (
       <>
+        <Balance address={this.props.address} token={config.contract.ubi} abi={abi} icon={Logo} provider={this.provider} />
         <Account address={this.props.address} provider={this.provider} />
         {/** <p>
           Connected Peers:

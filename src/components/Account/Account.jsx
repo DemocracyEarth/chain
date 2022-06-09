@@ -15,15 +15,6 @@ const Account = ({ address, provider }) => {
   const [publicAddress, setAddress] = useState("");
   const [human, setHuman] = useState(0);
 
-  useEffect(() => {
-    // connect automatically and without a popup if user is already connected
-    if (ethers.utils.getAddress(address)) {
-      getAvatar();
-      isHuman();
-    }
-    
-  }, [avatar, publicAddress])
-
   async function getAvatar() {
     const ensAddress = await provider.lookupAddress(address);
     const avatarURL = await provider.getAvatar(address);
@@ -44,6 +35,15 @@ const Account = ({ address, provider }) => {
     }
     return publicAddress;
   };
+
+  useEffect(() => {
+    // connect automatically and without a popup if user is already connected
+    if (ethers.utils.getAddress(address)) {
+      getAvatar();
+      isHuman();
+    }
+
+  }, [avatar, publicAddress])
 
   return (
     <Badge color="primary" badgeContent={human.toString()}>
