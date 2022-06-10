@@ -7,8 +7,6 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { config } from 'config';
-import logo from 'images/logo.svg';
-import { createSvgIcon } from '@mui/material/utils';
 import './App.css';
 import i18n from 'i18n';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
@@ -16,8 +14,6 @@ import Stack from '@mui/material/Stack';
 
 const EC = require('elliptic').ec;
 const ec = new EC('secp256k1');
-
-const UBIIcon = createSvgIcon(logo, 'Logo');
 
 function App() {
 
