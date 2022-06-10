@@ -21,8 +21,9 @@ const Balance = ({ address, token, abi, icon, provider }) => {
     const contract = new ethers.Contract(contractAddress, abi, provider);
     const balanceOf = await contract.balanceOf(address);
     const decimals = await contract.decimals();
-    console.log(decimals);
-    setBalance(_getBalanceLabel(ethers.BigNumber.from(balanceOf).toString(), decimals, '0,0.00'));
+    const ticker = await contract.symbol();
+    const number = _getBalanceLabel(ethers.BigNumber.from(balanceOf).toString(), decimals, '0,0.00');
+    setBalance(`${number} ${ticker}`);
   }
 
   useEffect(() => {
