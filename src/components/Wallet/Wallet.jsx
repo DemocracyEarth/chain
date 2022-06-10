@@ -14,23 +14,6 @@ export default function Wallet() {
   const [web3Modal, setWeb3Modal] = useState(null)
   const [address, setAddress] = useState("")
 
-  useEffect(() => {
-    const newWeb3Modal = new Web3Modal({
-      cacheProvider: true, // very important
-      network: "mainnet",
-      providerOptions: config.provider,
-    });
-
-    setWeb3Modal(newWeb3Modal)
-  }, [])
-
-  useEffect(() => {
-    // connect automatically and without a popup if user is already connected
-    if(web3Modal && web3Modal.cachedProvider){
-      connectWallet()
-    }
-  }, [web3Modal])
-
   async function connectWallet() {
     const provider = await web3Modal.connect();
     
@@ -53,6 +36,23 @@ export default function Wallet() {
     });
   }
 
+  useEffect(() => {
+    const newWeb3Modal = new Web3Modal({
+      cacheProvider: true, // very important
+      network: "mainnet",
+      providerOptions: config.provider,
+    });
+
+    setWeb3Modal(newWeb3Modal)
+  }, [])
+
+  useEffect(() => {
+    // connect automatically and without a popup if user is already connected
+    if (web3Modal && web3Modal.cachedProvider) {
+      connectWallet()
+    }
+  }, [web3Modal])
+ 
   return (
     <div>
       {(!address) ? 

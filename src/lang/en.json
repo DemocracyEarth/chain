@@ -1,4 +1,7 @@
 {
   "dapp-title": "UBI Chain",
-  "connect-wallet": "Connect wallet"
+  "connect-wallet": "Connect wallet",
+  "registered-human-emoji": "👍",
+  "unregistered-human-emoji": "🤖",
+  "verified-human": "Verified Human"
 }

@@ -1,9 +1,11 @@
 import React from 'react';
 import Chip from '@mui/material/Chip';
-import { ethers } from "ethers";
+import { ethers, utils } from "ethers";
 import { useEffect, useState } from 'react';
 import BigNumber from 'bignumber.js/bignumber';
-import SvgIcon from '@mui/material/SvgIcon';
+import { config } from 'config';
+import Avatar from '@mui/material/Avatar';
+import Tooltip from '@mui/material/Tooltip';
 
 const numeral = require('numeral');
 
@@ -12,17 +14,23 @@ const _getBalanceLabel = (quantity, decimals, format) => {
   return numeral(new BigNumber(quantity).dividedBy(Math.pow(10, zeroes)).toNumber()).format(format);
 }
 
-const Balance = ({ address, token, abi, icon, provider }) => {
+const Balance = ({ address, token, abi, provider }) => {
 
   const [balance, setBalance] = useState(0);
+  const [symbolIcon, setIcon] = useState('');
+  const [labelName, setLabel] = useState('');
 
   async function getBalance() {
     const contractAddress = token;
     const contract = new ethers.Contract(contractAddress, abi, provider);
     const balanceOf = await contract.balanceOf(address);
     const decimals = await contract.decimals();
-    console.log(decimals);
-    setBalance(_getBalanceLabel(ethers.BigNumber.from(balanceOf).toString(), decimals, '0,0.00'));
+    const ticker = await contract.symbol();
+    const number = _getBalanceLabel(ethers.BigNumber.from(balanceOf).toString(), decimals, '0,0.00');
+    const image = `${config.api.icons.replace('{{publicAddress}}', utils.getAddress(token))}`;
+    setLabel(await contract.name())
+    setIcon(image);
+    setBalance(`${number} ${ticker}`);
   }
 
   useEffect(() => {
@@ -34,10 +42,12 @@ const Balance = ({ address, token, abi, icon, provider }) => {
   }, [balance])
 
   return (
-    <Chip
-      icon={<SvgIcon inheritViewBox={true} component={icon} />}
-      label={balance}
-    />
+    <Tooltip title={labelName} arrow>
+      <Chip
+        avatar={<Avatar src={symbolIcon} />}
+        label={balance}
+      />
+    </Tooltip>
   )
 }
 

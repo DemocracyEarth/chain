@@ -7,15 +7,13 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { config } from 'config';
-import logo from 'images/logo.svg';
-import { createSvgIcon } from '@mui/material/utils';
 import './App.css';
 import i18n from 'i18n';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import Stack from '@mui/material/Stack';
 
 const EC = require('elliptic').ec;
 const ec = new EC('secp256k1');
-
-const UBIIcon = createSvgIcon(logo, 'Logo');
 
 function App() {
 
@@ -53,17 +51,30 @@ function App() {
     console.log("Configuration settings OK.")
   }
 
+  const darkTheme = createTheme({
+    palette: {
+      mode: 'dark',
+      primary: {
+        main: '#1976d2',
+      },
+    },
+  });
+
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            {i18n.t('dapp-title')}
-          </Typography>
-          <Wallet />
-        </Toolbar>
-      </AppBar>
-    </Box>
+    <Stack spacing={2} sx={{ flexGrow: 1 }}>
+      <ThemeProvider theme={darkTheme}>
+        <Box sx={{ flexGrow: 1 }}>
+          <AppBar position="static" enableColorOnDark color="primary">
+            <Toolbar>
+              <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                {i18n.t('dapp-title')}
+              </Typography>
+              <Wallet />
+            </Toolbar>
+          </AppBar>
+        </Box>
+      </ThemeProvider>
+    </Stack>
   );
 }
 

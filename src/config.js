@@ -9,7 +9,7 @@ export const config = {
     walletconnect: {
       package: WalletConnectProvider,
       options: {
-        infuraId: '',
+        infuraId: '269a4106080549898dcc50dbb84754f3',
       }
     }
   },
@@ -20,5 +20,8 @@ export const config = {
   },
   i18n: {
     lng: 'en'
+  },
+  api: {
+    icons: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/{{publicAddress}}/logo.png'
   }
 }
