@@ -20,5 +20,8 @@ export const config = {
   },
   i18n: {
     lng: 'en'
+  },
+  api: {
+    icons: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/{{publicAddress}}/logo.png'
   }
 }
