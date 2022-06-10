@@ -9,7 +9,7 @@ export const config = {
     walletconnect: {
       package: WalletConnectProvider,
       options: {
-        infuraId: '',
+        infuraId: '269a4106080549898dcc50dbb84754f3',
       }
     }
   },
