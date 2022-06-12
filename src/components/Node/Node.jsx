@@ -43,14 +43,16 @@ export default class Node extends Component {
 
   render() {
     return (
-      <Stack direction="row" spacing={2}>
-        <Balance address={this.props.address} token={config.contract.ubi} abi={abi} provider={this.provider} />
-        <Account address={this.props.address} provider={this.provider} />
-        {/** <p>
-          Connected Peers:
-          {JSON.stringify(this.state.peers)}
-        </p> **/}
-      </Stack>
+      <>
+        <Stack direction="row" spacing={2}>
+          <Balance address={this.props.address} token={config.contract.ubi} abi={abi} provider={this.provider} />
+          <Account address={this.props.address} provider={this.provider} />
+          {/** <p>
+            Connected Peers:
+            {JSON.stringify(this.state.peers)}
+          </p> **/}
+        </Stack>
+      </>
     )
   }
 }
