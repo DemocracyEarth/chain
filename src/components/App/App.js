@@ -11,9 +11,25 @@ import './App.css';
 import i18n from 'i18n';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import Stack from '@mui/material/Stack';
+import Drawer from '@mui/material/Drawer';
+import List from '@mui/material/List';
+import Divider from '@mui/material/Divider';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import InboxIcon from '@mui/icons-material/MoveToInbox';
+import MailIcon from '@mui/icons-material/Mail';
+
+import WaterDamageTwoToneIcon from '@mui/icons-material/WaterDamageTwoTone';
+import ChatBubbleTwoToneIcon from '@mui/icons-material/ChatBubbleTwoTone';
+import EmergencyShareTwoToneIcon from '@mui/icons-material/EmergencyShareTwoTone';
+import SavingsTwoToneIcon from '@mui/icons-material/SavingsTwoTone';
 
 const EC = require('elliptic').ec;
 const ec = new EC('secp256k1');
+
+const drawerWidth = 240;
 
 function App() {
 
@@ -60,11 +76,13 @@ function App() {
     },
   });
 
+  const iconList = [<ChatBubbleTwoToneIcon />, <WaterDamageTwoToneIcon />, <EmergencyShareTwoToneIcon />, <SavingsTwoToneIcon />];
+
   return (
     <Stack spacing={2} sx={{ flexGrow: 1 }}>
       <ThemeProvider theme={darkTheme}>
         <Box sx={{ flexGrow: 1 }}>
-          <AppBar position="static" enableColorOnDark color="primary">
+          <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
             <Toolbar>
               <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                 {i18n.t('dapp-title')}
@@ -72,6 +90,31 @@ function App() {
               <Wallet />
             </Toolbar>
           </AppBar>
+          <Drawer
+            variant="permanent"
+            sx={{
+              width: drawerWidth,
+              flexShrink: 0,
+              [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box' },
+            }}
+          >
+            <Toolbar />
+            <Box sx={{ overflow: 'auto' }}>
+              <List>
+                {[i18n.t('chat'), i18n.t('node'), i18n.t('streams'), i18n.t('vaults')].map((text, index) => (
+                  <ListItem key={text} disablePadding>
+                    <ListItemButton>
+                      <ListItemIcon>
+                        {iconList[index]}
+                      </ListItemIcon>
+                      <ListItemText primary={text} />
+                    </ListItemButton>
+                  </ListItem>
+                ))}
+              </List>
+              <Divider />
+            </Box>
+          </Drawer>
         </Box>
       </ThemeProvider>
     </Stack>

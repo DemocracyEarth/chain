@@ -1,7 +1,11 @@
 {
-  "dapp-title": "UBI Chain",
+  "dapp-title": "ubi.eth",
   "connect-wallet": "Connect wallet",
   "registered-human-emoji": "👍",
   "unregistered-human-emoji": "🤖",
-  "verified-human": "Verified Human"
+  "verified-human": "Verified Human",
+  "chat": "Chat",
+  "node": "Node",
+  "streams": "Streams",
+  "vaults": "Vaults"
 }
