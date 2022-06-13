@@ -7,5 +7,7 @@
   "chat": "Chat",
   "node": "Node",
   "streams": "Streams",
-  "vaults": "Vaults"
+  "vaults": "Vaults",
+  "burner": "Burner",
+  "bridges": "Bridges"
 }
