@@ -1,6 +1,6 @@
 const express = require('express')
 const bodyParser = require("body-parser");
-const { JSONRPCServer } = require("json-rpc-2.0");
+const { JSONRPC, JSONRPCServer } = require("json-rpc-2.0");
 
 const server = new JSONRPCServer();
 
@@ -13,16 +13,54 @@ console.log('Starting JSON-RPC server...')
 server.addMethod("echo", ({ text }) => text);
 server.addMethod("log", ({ message }) => console.log(message));
 
+const eth_chainId = (next, request, serverParams) => {
+  console.log(`Received ${JSON.stringify(request)}`);
+  return next(request, serverParams).then((response) => {
+    console.log(`Responding ${JSON.stringify(response)}`);
+    return response;
+  });
+}
+
+const exceptionMiddleware = async (next, request, serverParams) => {
+  try {
+    return await next(request, serverParams);
+  } catch (error) {
+    if (error.code) {
+      return createJSONRPCErrorResponse(request.id, error.code, error.message);
+    } else {
+      throw error;
+    }
+  }
+};
+
+// Middleware will be called in the same order they are applied
+server.applyMiddleware(eth_chainId, exceptionMiddleware);
+
+server.addMethodAdvanced('eth_chainId', ({ params }) => { 
+  console.log(`--> addMethodAdvanced()`);
+  console.log('-->  params'); 
+  console.log(params); 
+  console.log('--> return');
+  return {
+    jsonrpc: JSONRPC,
+    id: 0,
+    result: "1dcd65000",
+  };
+});
+
 const app = express();
 app.use(bodyParser.json());
 
 app.post("/", (req, res) => {
   const jsonRPCRequest = req.body;
+  console.log('--> req.body')
   console.log(req.body);
   // server.receive takes a JSON-RPC request and returns a promise of a JSON-RPC response.
   // It can also receive an array of requests, in which case it may return an array of responses.
   // Alternatively, you can use server.receiveJSON, which takes JSON string as is (in this case req.body).
   server.receive(jsonRPCRequest).then((jsonRPCResponse) => {
+    console.log(`--> jsonRPCResponse:`);
+    console.log(jsonRPCResponse);
     if (jsonRPCResponse) {
       res.json(jsonRPCResponse);
     } else {

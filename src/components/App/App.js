@@ -19,8 +19,8 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 
-import ChatIcon from '@mui/icons-material/WaterDamageTwoTone';
-import NodeIcon from '@mui/icons-material/ChatBubbleTwoTone';
+import NodeIcon from '@mui/icons-material/WaterDamageTwoTone';
+import ChatIcon from '@mui/icons-material/ChatBubbleTwoTone';
 import StreamsIcon from '@mui/icons-material/EmergencyShareTwoTone';
 import VaultsIcon from '@mui/icons-material/SavingsTwoTone';
 import BurnerIcon from '@mui/icons-material/WhatshotTwoTone';
