@@ -17,7 +17,11 @@ const eth_chainId = (next, request, serverParams) => {
   console.log(`Received ${JSON.stringify(request)}`);
   return next(request, serverParams).then((response) => {
     console.log(`Responding ${JSON.stringify(response)}`);
-    return response;
+    return {
+      jsonrpc: JSONRPC,
+      id: request.id,
+      result: response.result,
+    };
   });
 }
 
@@ -36,15 +40,10 @@ const exceptionMiddleware = async (next, request, serverParams) => {
 // Middleware will be called in the same order they are applied
 server.applyMiddleware(eth_chainId, exceptionMiddleware);
 
-server.addMethodAdvanced('eth_chainId', ({ params }) => { 
-  console.log(`--> addMethodAdvanced()`);
-  console.log('-->  params'); 
-  console.log(params); 
-  console.log('--> return');
+server.addMethodAdvanced('eth_chainId', () => { 
   return {
     jsonrpc: JSONRPC,
-    id: 0,
-    result: "1dcd65000",
+    result: "0x1dcd65000",
   };
 });
 
