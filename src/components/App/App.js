@@ -18,13 +18,13 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 
-import WaterDamageTwoToneIcon from '@mui/icons-material/WaterDamageTwoTone';
-import ChatBubbleTwoToneIcon from '@mui/icons-material/ChatBubbleTwoTone';
-import EmergencyShareTwoToneIcon from '@mui/icons-material/EmergencyShareTwoTone';
-import SavingsTwoToneIcon from '@mui/icons-material/SavingsTwoTone';
+import NodeIcon from '@mui/icons-material/WaterDamageTwoTone';
+import ChatIcon from '@mui/icons-material/ChatBubbleTwoTone';
+import StreamsIcon from '@mui/icons-material/EmergencyShareTwoTone';
+import VaultsIcon from '@mui/icons-material/SavingsTwoTone';
+import BurnerIcon from '@mui/icons-material/WhatshotTwoTone';
+import BridgesIcon from '@mui/icons-material/CableTwoTone';
 
 const EC = require('elliptic').ec;
 const ec = new EC('secp256k1');
@@ -76,7 +76,7 @@ function App() {
     },
   });
 
-  const iconList = [<ChatBubbleTwoToneIcon />, <WaterDamageTwoToneIcon />, <EmergencyShareTwoToneIcon />, <SavingsTwoToneIcon />];
+  const iconList = [<ChatIcon />, <NodeIcon />, <StreamsIcon />, <VaultsIcon />, <BurnerIcon />, <BridgesIcon />];
 
   return (
     <Stack spacing={2} sx={{ flexGrow: 1 }}>
@@ -101,7 +101,7 @@ function App() {
             <Toolbar />
             <Box sx={{ overflow: 'auto' }}>
               <List>
-                {[i18n.t('chat'), i18n.t('node'), i18n.t('streams'), i18n.t('vaults')].map((text, index) => (
+                {[i18n.t('chat'), i18n.t('node'), i18n.t('streams'), i18n.t('vaults'), i18n.t('burner'), i18n.t('bridges')].map((text, index) => (
                   <ListItem key={text} disablePadding>
                     <ListItemButton>
                       <ListItemIcon>
