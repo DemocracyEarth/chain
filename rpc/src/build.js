@@ -66,7 +66,7 @@ async function mapRPC() {
   return rpc;
 }
 
-const server = mapRPC();
+// const server = mapRPC();
 
 
 // First parameter is a method name.
@@ -77,4 +77,8 @@ const server = mapRPC();
 // server.addMethod("log", ({ message }) => console.log(message));
 
 
-module.exports = server;
+module.exports = (async function () {
+  const server = await mapRPC();
+  return server;
+})()
+
