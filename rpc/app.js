@@ -13,7 +13,7 @@ console.log('Starting JSON-RPC server...')
 server.addMethod("echo", ({ text }) => text);
 server.addMethod("log", ({ message }) => console.log(message));
 
-const eth_chainId = (next, request, serverParams) => {
+const ubiChain = (next, request, serverParams) => {
   console.log(`Received ${JSON.stringify(request)}`);
   return next(request, serverParams).then((response) => {
     console.log(`Responding ${JSON.stringify(response)}`);
@@ -38,14 +38,23 @@ const exceptionMiddleware = async (next, request, serverParams) => {
 };
 
 // Middleware will be called in the same order they are applied
-server.applyMiddleware(eth_chainId, exceptionMiddleware);
+server.applyMiddleware(ubiChain, exceptionMiddleware);
 
 server.addMethodAdvanced('eth_chainId', () => { 
   return {
     jsonrpc: JSONRPC,
-    result: "0x1dcd65000",
+    result: "0x388", //904 or closest looking number to POH
   };
 });
+
+server.addMethodAdvanced('eth_blockNumber', () => {
+  return {
+    jsonrpc: JSONRPC,
+    result: "0x0",
+  };
+});
+
+
 
 const app = express();
 app.use(bodyParser.json());
