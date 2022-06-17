@@ -1,6 +1,3 @@
-
-
-const { JsonRpcSigner } = require("@ethersproject/providers");
 const { JSONRPC, JSONRPCServer } = require("json-rpc-2.0");
 const fs = require('fs').promises;
 
@@ -14,7 +11,6 @@ async function loadRPC() {
     console.log("Open JSON RCP successfully opened.");
     return jsonString;
   });
-  console.log('data:')
   return JSON.parse(data);
 }
 
@@ -49,6 +45,10 @@ async function mapRPC() {
   // Middleware will be called in the same order they are applied
   rpc.applyMiddleware(ubiChain, exceptionMiddleware);
 
+  for (let i = 0; i < openRPC.methods.length; i++ ) {
+    console.log(`method: ${openRPC.methods[i].name}`);
+  }
+
   rpc.addMethodAdvanced('eth_chainId', () => {
     return {
       jsonrpc: JSONRPC,
@@ -65,17 +65,6 @@ async function mapRPC() {
   
   return rpc;
 }
-
-// const server = mapRPC();
-
-
-// First parameter is a method name.
-// Second parameter is a method itself.
-// A method takes JSON-RPC params and returns a result.
-// It can also return a promise of the result.
-// server.addMethod("echo", ({ text }) => text);
-// server.addMethod("log", ({ message }) => console.log(message));
-
 
 module.exports = (async function () {
   const server = await mapRPC();
