@@ -1,6 +1,13 @@
+const methods = require('./eth/methods.js');
+
 const { JSONRPC, JSONRPCServer } = require("json-rpc-2.0");
+
 const fs = require('fs').promises;
 
+
+/*
+  Loads Open JSON RPC specification for EVM
+*/
 async function loadRPC() {
   // const data = await fs.readFile("monolitic.txt", "binary");
   const data = await fs.readFile("./rpc/src/openrpc.json", "utf8", (err, jsonString) => {
@@ -15,9 +22,9 @@ async function loadRPC() {
 }
 
 const ubiChain = (next, request, serverParams) => {
-  console.log(`Received ${JSON.stringify(request)}`);
+  console.log(`--> Received: ${JSON.stringify(request)}`);
   return next(request, serverParams).then((response) => {
-    console.log(`Responding ${JSON.stringify(response)}`);
+    console.log(`<-- Responding: ${JSON.stringify(response)}`);
     return {
       jsonrpc: JSONRPC,
       id: request.id,
@@ -38,6 +45,10 @@ const exceptionMiddleware = async (next, request, serverParams) => {
   }
 };
 
+
+/*
+ Maps the JSON RPC functions from the server onto the RPC object.
+*/
 async function mapRPC() {
   const openRPC = await loadRPC();
   const rpc = new JSONRPCServer();
@@ -46,23 +57,16 @@ async function mapRPC() {
   rpc.applyMiddleware(ubiChain, exceptionMiddleware);
 
   for (let i = 0; i < openRPC.methods.length; i++ ) {
-    console.log(`method: ${openRPC.methods[i].name}`);
+    if (methods[openRPC.methods[i].name]) {
+      rpc.addMethodAdvanced(openRPC.methods[i].name, (request) => {
+        const result = methods[openRPC.methods[i].name](request.params, openRPC.methods[i].result.schema);
+        return {
+          jsonrpc: JSONRPC,
+          result,
+        };
+      });
+    }
   }
-
-  rpc.addMethodAdvanced('eth_chainId', () => {
-    return {
-      jsonrpc: JSONRPC,
-      result: "0x388", //904 or closest looking number to POH
-    };
-  });
-
-  rpc.addMethodAdvanced('eth_blockNumber', () => {
-    return {
-      jsonrpc: JSONRPC,
-      result: "0x0",
-    };
-  });
-  
   return rpc;
 }
 
