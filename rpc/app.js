@@ -8,7 +8,7 @@
 
   app.post("/", (req, res) => {
     const jsonRPCRequest = req.body;
-    console.log(req.body);
+    console.log(`Request: ${req.body.method}`);
     // server.receive takes a JSON-RPC request and returns a promise of a JSON-RPC response.
     // It can also receive an array of requests, in which case it may return an array of responses.
     // Alternatively, you can use server.receiveJSON, which takes JSON string as is (in this case req.body).
