@@ -1101,6 +1101,18 @@
 			}
 		},
 		{
+			"name": "net_version",
+			"summary": "String value of current network id.",
+			"params": [],
+			"result": {
+				"name": "Chain ID",
+				"schema": {
+					"title": "string value",
+					"type": "string"
+				}
+			}
+		},
+		{
 			"name": "eth_syncing",
 			"summary": "Returns an object with data about the sync status or false.",
 			"params": [],

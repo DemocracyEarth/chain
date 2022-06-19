@@ -1,9 +1,6 @@
 const methods = require('./eth/methods.js');
-
 const { JSONRPC, JSONRPCServer } = require("json-rpc-2.0");
-
 const fs = require('fs').promises;
-
 
 /*
   Loads Open JSON RPC specification for EVM
@@ -44,7 +41,6 @@ const exceptionMiddleware = async (next, request, serverParams) => {
     }
   }
 };
-
 
 /*
  Maps the JSON RPC functions from the server onto the RPC object.
