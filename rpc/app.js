@@ -1,9 +1,22 @@
+const puppeteer = require('puppeteer');
+
 (async function () {
   const express = require('express')
   const bodyParser = require("body-parser");
   const server = await require('./src/build.js')
 
+  // const PeerJS = require('peerjs').default;
+  // const peer = new PeerJS();
+  // console.log(peer);
+
   const app = express();
+
+  const browser = await puppeteer.launch();
+  const page = await browser.newPage();
+  await page.goto('https://localhost:3000');
+  await browser.close();
+
+
   app.use(bodyParser.json());
 
   app.post("/", (req, res) => {
