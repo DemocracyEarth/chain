@@ -1,10 +1,14 @@
 const puppeteer = require('puppeteer');
+const colors = require('colors');
 
+colors.enable()
 
+// Delay function
 function wait(delay) {
   return new Promise((resolve) => setTimeout(resolve, delay));
 }
 
+// Tries several times to see if a website is active.
 async function fetchRetry(url, delay, tries, fetchOptions = {}) {
   function onError(err) {
     triesLeft = tries - 1;
@@ -24,43 +28,18 @@ async function fetchRetry(url, delay, tries, fetchOptions = {}) {
   const bodyParser = require("body-parser");
   const server = await require('./src/build.js')
 
-  // const PeerJS = require('peerjs').default;
-  // const peer = new PeerJS();
-  // console.log(peer);
-
   const app = express();
 
-  /*
-  const interval = setInterval(async function () {
-    console.log('Reaching out local server from RPC node...')
-    try {
-      await fetch('http://127.0.0.1:3000/').then(async (res) => {
-        console.log('Connected to local server.')
-        const browser = await puppeteer.launch();
-        const page = await browser.newPage();
-        // console.log(await page.goto('http://127.0.0.1:3000'));
-        console.log(res);
-        return res.json();
-      });
-      clearInterval(this);
-    } catch (error) {
-      console.log('error on connection');
-      console.log(error);
-    }
-  }, 5000);*/
+  // Connect to node simulating browser in server
   await fetchRetry('http://127.0.0.1:3000', 5000, 10);
-  
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
   await page.goto('http://127.0.0.1:3000');
-  page.on('console', msg => console.log('[Node Server Console] ', msg.text()));
+  page.on('console', msg => console.log(`[Node Server Console] ${msg.text()}`.blue));
 
-  console.log(page);
   
-
-
+  // JSON RPC Server
   app.use(bodyParser.json());
-
   app.post("/", (req, res) => {
     const jsonRPCRequest = req.body;
     console.log(`Request: ${req.body.method}`);
@@ -79,7 +58,5 @@ async function fetchRetry(url, delay, tries, fetchOptions = {}) {
   });
 
   app.listen(8585);
-  // var foo = await require("./theuppercode");
-  // console.log(foo);
 })();
 
