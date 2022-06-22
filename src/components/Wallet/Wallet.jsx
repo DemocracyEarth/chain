@@ -2,7 +2,7 @@ import React from 'react';
 import { providers } from "ethers";
 import Web3Modal from 'web3modal'
 import { config } from 'config'
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Fab } from '@mui/material'
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import i18n from 'i18n';
@@ -14,7 +14,7 @@ export default function Wallet() {
   const [web3Modal, setWeb3Modal] = useState(null)
   const [address, setAddress] = useState("")
 
-  async function connectWallet() {
+  const connectWallet = useCallback(async () => {
     const provider = await web3Modal.connect();
     
     addListeners(provider);
@@ -23,7 +23,7 @@ export default function Wallet() {
     const userAddress = await ethersProvider.getSigner().getAddress()
     setAddress(userAddress)
 
-  }
+  }, [web3Modal]);
 
   async function addListeners(web3ModalProvider) {
     web3ModalProvider.on("accountsChanged", (accounts) => {
@@ -51,7 +51,7 @@ export default function Wallet() {
     if (web3Modal && web3Modal.cachedProvider) {
       connectWallet()
     }
-  }, [web3Modal])
+  }, [web3Modal, connectWallet])
  
   return (
     <div>

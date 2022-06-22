@@ -53,6 +53,7 @@ async function fetchRetry(url, delay, tries, fetchOptions = {}) {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
   await page.goto('http://127.0.0.1:3000');
+  page.on('console', msg => console.log('[Node Server Console] ', msg.text()));
 
   console.log(page);
   

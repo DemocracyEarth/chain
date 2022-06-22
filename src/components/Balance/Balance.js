@@ -1,7 +1,7 @@
 import React from 'react';
 import Chip from '@mui/material/Chip';
 import { ethers, utils } from "ethers";
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import BigNumber from 'bignumber.js/bignumber';
 import { config } from 'config';
 import Avatar from '@mui/material/Avatar';
@@ -20,7 +20,7 @@ const Balance = ({ address, token, abi, provider }) => {
   const [symbolIcon, setIcon] = useState('');
   const [labelName, setLabel] = useState('');
 
-  async function getBalance() {
+  const getBalance = useCallback(async () => {
     const contractAddress = token;
     const contract = new ethers.Contract(contractAddress, abi, provider);
     const balanceOf = await contract.balanceOf(address);
@@ -31,7 +31,7 @@ const Balance = ({ address, token, abi, provider }) => {
     setLabel(await contract.name())
     setIcon(image);
     setBalance(`${number} ${ticker}`);
-  }
+  }, [abi, address, provider, token]);
 
   useEffect(() => {
     // connect automatically and without a popup if user is already connected
@@ -39,7 +39,7 @@ const Balance = ({ address, token, abi, provider }) => {
       getBalance();
     }
 
-  }, [balance])
+  }, [getBalance, address]);
 
   return (
     <Tooltip title={labelName} arrow>
