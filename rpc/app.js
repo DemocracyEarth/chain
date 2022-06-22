@@ -13,8 +13,24 @@ const puppeteer = require('puppeteer');
 
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
-  await page.goto('https://localhost:3000');
-  await browser.close();
+
+  // console.log(await page.goto('https://localhost:3000'));
+  const interval = setInterval(async function () {
+    console.log('Reaching out local server from RPC node...')
+    try {
+      await fetch('http://127.0.0.1:3000/').then((res) => {
+        console.log('Connected to local server.')
+        console.log(res);
+        offline = false;
+        return res.json();
+      });
+    } catch (error) {
+      console.log(error);
+      console.log('... offline.');
+    }
+  }, 5000);
+
+  // await browser.close();
 
 
   app.use(bodyParser.json());
