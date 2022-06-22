@@ -1,5 +1,24 @@
 const puppeteer = require('puppeteer');
 
+
+function wait(delay) {
+  return new Promise((resolve) => setTimeout(resolve, delay));
+}
+
+async function fetchRetry(url, delay, tries, fetchOptions = {}) {
+  function onError(err) {
+    triesLeft = tries - 1;
+    if (!triesLeft) {
+      console.log(`Could not fetch node server due to following error:`);
+      console.log(err);
+      throw err;
+    }
+    return wait(delay).then(() => fetchRetry(url, delay, triesLeft, fetchOptions));
+  }
+  console.log(`Connecting to node server on ${url}`);
+  return await fetch(url, fetchOptions).catch(onError);
+}
+
 (async function () {
   const express = require('express')
   const bodyParser = require("body-parser");
@@ -11,24 +30,32 @@ const puppeteer = require('puppeteer');
 
   const app = express();
 
-  const browser = await puppeteer.launch();
-  const page = await browser.newPage();
-
-  // console.log(await page.goto('https://localhost:3000'));
+  /*
   const interval = setInterval(async function () {
     console.log('Reaching out local server from RPC node...')
     try {
-      await fetch('http://127.0.0.1:3000/').then((res) => {
+      await fetch('http://127.0.0.1:3000/').then(async (res) => {
         console.log('Connected to local server.')
-        offline = false;
+        const browser = await puppeteer.launch();
+        const page = await browser.newPage();
+        // console.log(await page.goto('http://127.0.0.1:3000'));
+        console.log(res);
         return res.json();
       });
+      clearInterval(this);
     } catch (error) {
+      console.log('error on connection');
       console.log(error);
     }
-  }, 5000);
+  }, 5000);*/
+  await fetchRetry('http://127.0.0.1:3000', 5000, 10);
+  
+  const browser = await puppeteer.launch();
+  const page = await browser.newPage();
+  await page.goto('http://127.0.0.1:3000');
 
-  // await browser.close();
+  console.log(page);
+  
 
 
   app.use(bodyParser.json());
