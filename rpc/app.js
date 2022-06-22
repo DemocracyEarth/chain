@@ -1,9 +1,36 @@
+const puppeteer = require('puppeteer');
+
 (async function () {
   const express = require('express')
   const bodyParser = require("body-parser");
   const server = await require('./src/build.js')
 
+  // const PeerJS = require('peerjs').default;
+  // const peer = new PeerJS();
+  // console.log(peer);
+
   const app = express();
+
+  const browser = await puppeteer.launch();
+  const page = await browser.newPage();
+
+  // console.log(await page.goto('https://localhost:3000'));
+  const interval = setInterval(async function () {
+    console.log('Reaching out local server from RPC node...')
+    try {
+      await fetch('http://127.0.0.1:3000/').then((res) => {
+        console.log('Connected to local server.')
+        offline = false;
+        return res.json();
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }, 5000);
+
+  // await browser.close();
+
+
   app.use(bodyParser.json());
 
   app.post("/", (req, res) => {
