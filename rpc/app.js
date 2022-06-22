@@ -20,13 +20,11 @@ const puppeteer = require('puppeteer');
     try {
       await fetch('http://127.0.0.1:3000/').then((res) => {
         console.log('Connected to local server.')
-        console.log(res);
         offline = false;
         return res.json();
       });
     } catch (error) {
       console.log(error);
-      console.log('... offline.');
     }
   }, 5000);
 
