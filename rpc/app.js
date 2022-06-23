@@ -1,3 +1,5 @@
+const express = require('express')
+const bodyParser = require("body-parser");
 const puppeteer = require('puppeteer');
 const colors = require('colors');
 
@@ -8,7 +10,7 @@ function wait(delay) {
   return new Promise((resolve) => setTimeout(resolve, delay));
 }
 
-// Tries several times to see if a website is active.
+// Tries several times to see if node server has loaded.
 async function fetchRetry(url, delay, tries, fetchOptions = {}) {
   function onError(err) {
     triesLeft = tries - 1;
@@ -24,21 +26,20 @@ async function fetchRetry(url, delay, tries, fetchOptions = {}) {
 }
 
 (async function () {
-  const express = require('express')
-  const bodyParser = require("body-parser");
+  // Build JSON RPC Server settings
   const server = await require('./src/build.js')
 
+  // Start HTTP server
   const app = express();
 
-  // Connect to node simulating browser in server
+  // Connect to node via puppeteer Chrom browser
   await fetchRetry('http://127.0.0.1:3000', 5000, 10);
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
   await page.goto('http://127.0.0.1:3000');
-  page.on('console', msg => console.log(`[Node Server Console] ${msg.text()}`.blue));
-
+  page.on('console', msg => { console.log(`[Node Server Console] ${msg.text()}`); console.log(msg) });
   
-  // JSON RPC Server
+  // Start JSON RPC Server
   app.use(bodyParser.json());
   app.post("/", (req, res) => {
     const jsonRPCRequest = req.body;
@@ -57,6 +58,8 @@ async function fetchRetry(url, delay, tries, fetchOptions = {}) {
     });
   });
 
+  // Listen to Port 8585
   app.listen(8585);
+
 })();
 
