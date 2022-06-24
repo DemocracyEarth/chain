@@ -32,18 +32,10 @@ export default function Wallet() {
   // Connects to an existing Web3 Wallet
   const connectWallet = useCallback(async () => {
     const provider = await web3Modal.connect();
-    console.log(provider);
 
     addListeners(provider);
-
-    console.log(`provider:`);
-    console.log(provider);
     
     const ethersProvider = new providers.Web3Provider(provider)
-
-    console.log(`ethersProvider:`);
-    console.log(ethersProvider);
-
     const userAddress = await ethersProvider.getSigner().getAddress()
     setAddress(userAddress)
 
@@ -53,10 +45,6 @@ export default function Wallet() {
   const generateWallet = useCallback(async () => {
     if (nativeWallet === false) {
       const wallet = ethers.Wallet.createRandom()
-      console.log(wallet);
-      console.log('address:', wallet.address)
-      console.log('mnemonic:', wallet.mnemonic.phrase)
-      console.log('privateKey:', wallet.privateKey)
       setNativeWallet(true);
       setMnemonic(wallet.mnemonic.phrase);
       setPrivateKey(wallet.privateKey);
@@ -65,7 +53,6 @@ export default function Wallet() {
   });
 
   useEffect(() => {
-    console.log(`newWeb3Modal...`);
     const newWeb3Modal = new Web3Modal({
       cacheProvider: true, // very important
       network: "mainnet",
@@ -77,8 +64,6 @@ export default function Wallet() {
   }, [])
 
   useEffect(() => {
-    console.log(`walletSetup:`);
-    console.log(walletSetup);
     // connect automatically and without a popup if user is already connected
     if (web3Modal && web3Modal.cachedProvider) {
       console.log(`running connectWallet`)
