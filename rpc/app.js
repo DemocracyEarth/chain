@@ -34,10 +34,10 @@ async function fetchRetry(url, delay, tries, fetchOptions = {}) {
 
   // Connect to node via puppeteer Chrom browser
   await fetchRetry('http://127.0.0.1:3000', 5000, 10);
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({ dumpio: false });
   const page = await browser.newPage();
   await page.goto('http://127.0.0.1:3000');
-  page.on('console', msg => { console.log(`[Node Server Console] ${msg.text()}`); console.log(msg) });
+  page.on('console', msg => { console.log(`[Node Server Console] ${msg.text()}`) });
   
   // Start JSON RPC Server
   app.use(bodyParser.json());
