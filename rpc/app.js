@@ -1,38 +1,46 @@
+const express = require('express')
+const bodyParser = require("body-parser");
 const puppeteer = require('puppeteer');
+const colors = require('colors');
+
+colors.enable()
+
+// Delay function
+function wait(delay) {
+  return new Promise((resolve) => setTimeout(resolve, delay));
+}
+
+// Tries several times to see if node server has loaded.
+async function fetchRetry(url, delay, tries, fetchOptions = {}) {
+  function onError(err) {
+    triesLeft = tries - 1;
+    if (!triesLeft) {
+      console.log(`Could not fetch node server due to following error:`);
+      console.log(err);
+      throw err;
+    }
+    return wait(delay).then(() => fetchRetry(url, delay, triesLeft, fetchOptions));
+  }
+  console.log(`Connecting to node server on ${url}`);
+  return await fetch(url, fetchOptions).catch(onError);
+}
 
 (async function () {
-  const express = require('express')
-  const bodyParser = require("body-parser");
+  // Build JSON RPC Server settings
   const server = await require('./src/build.js')
 
-  // const PeerJS = require('peerjs').default;
-  // const peer = new PeerJS();
-  // console.log(peer);
-
+  // Start HTTP server
   const app = express();
 
-  const browser = await puppeteer.launch();
+  // Connect to node via puppeteer Chrom browser
+  await fetchRetry('http://127.0.0.1:3000', 5000, 10);
+  const browser = await puppeteer.launch({ dumpio: false });
   const page = await browser.newPage();
-
-  // console.log(await page.goto('https://localhost:3000'));
-  const interval = setInterval(async function () {
-    console.log('Reaching out local server from RPC node...')
-    try {
-      await fetch('http://127.0.0.1:3000/').then((res) => {
-        console.log('Connected to local server.')
-        offline = false;
-        return res.json();
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  }, 5000);
-
-  // await browser.close();
-
-
+  await page.goto('http://127.0.0.1:3000');
+  page.on('console', msg => { console.log(`[Node Server Console] ${msg.text()}`) });
+  
+  // Start JSON RPC Server
   app.use(bodyParser.json());
-
   app.post("/", (req, res) => {
     const jsonRPCRequest = req.body;
     console.log(`Request: ${req.body.method}`);
@@ -50,8 +58,8 @@ const puppeteer = require('puppeteer');
     });
   });
 
+  // Listen to Port 8585
   app.listen(8585);
-  // var foo = await require("./theuppercode");
-  // console.log(foo);
+
 })();
 

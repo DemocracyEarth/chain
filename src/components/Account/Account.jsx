@@ -5,7 +5,7 @@ import Tooltip from '@mui/material/Tooltip';
 import { ethers } from "ethers";
 import { abi } from 'abi/poh';
 import { config } from 'config';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import Badge from '@mui/material/Badge';
 import i18n from 'i18n';
 
@@ -19,14 +19,14 @@ const Account = ({ address, provider }) => {
   const [verified, setVerified] = useState('');
   const [visibleBadge, setVisibleBadge] = useState(false);
 
-  async function getAvatar() {
+  const getAvatar = useCallback(async () => {
     const ensAddress = await provider.lookupAddress(address);
     const avatarURL = await provider.getAvatar(address);
     (avatarURL) ? setAvatar(avatarURL) : setAvatar(makeBlockie(address));
     (ensAddress) ? setAddress(ensAddress) : setAddress(_shortenCryptoName(ethers.utils.getAddress(address)));
-  }
+  }, [address, provider]);
 
-  async function isHuman() {
+  const isHuman = useCallback(async () => {
     const contractAddress = config.contract.proofofhumanity;
     const contract = new ethers.Contract(contractAddress, abi, provider);
     const isRegistered = await contract.isRegistered(address);
@@ -35,7 +35,7 @@ const Account = ({ address, provider }) => {
     setHuman(humanBadge);
     setVerified(humanLabel);
     setVisibleBadge(isRegistered)
-  }
+  }, [address, provider]);
   
   const _shortenCryptoName = (publicAddress) => {
     if (publicAddress.length === 42 && publicAddress.slice(0, 2) === '0x') {
@@ -51,7 +51,7 @@ const Account = ({ address, provider }) => {
       isHuman();
     }
 
-  }, [avatar, publicAddress])
+  }, [avatar, publicAddress, getAvatar, isHuman, address])
 
   return (
     <Tooltip title={verified} arrow>
